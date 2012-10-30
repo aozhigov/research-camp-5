@@ -1,7 +1,9 @@
 initposition:       [0.011, 0.011, -0.1, 0.023, 0.12 ]
 
-zeroposition:       [0.0, 0.0, 0.0, 0.0, 0.0]
-zeroposition_mod:       [0.5, 0.1, 0.1, 0.1, 0.1]
+zeroposition:       [2.9496, 1.13446, -2.54818, 1.78896, 2.93075]
+
+twente_zeroposition:        [0.0, 0.0, 0.0, 0.0, 0.0]
+twente_zeroposition_mod:   [0.5, 0.1, 0.1, 0.1, 0.1]
 
 
 pregrasp_laying_mex: [2.97196, 2.2966, -2.36522, 3.34847, 3.036924]
