@@ -1,23 +1,4 @@
-import("rtt_rosnode");
-import("raw_base_bridge_ros_orocos");
-
-require("ros_integration")
-
-loadComponent("base_bridge", "BaseBridgeRosOrocos");
-
-
 var ConnPolicy cp_ros_cmd_vel;
 cp_ros_cmd_vel.transport = 3;
 cp_ros_cmd_vel.name_id = "/cmd_vel";
 stream("driver.Base.cmd_twist", cp_ros_cmd_vel);
-
-
-connectPeers("base_bridge", "executive")
-
-base_bridge.configure;
-base_bridge.setPeriod(0.01);
-
-# 
-# Start running
-# 
-base_bridge.start;

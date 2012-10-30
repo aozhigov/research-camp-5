@@ -57,8 +57,8 @@ INCLUDE_DIRECTORIES(
 LINK_DIRECTORIES(${LIBRARY_OUTPUT_PATH})
 
 
-orocos_component(base_bridge_ros_orocos orocos/src/base_bridge_ros_orocos.cpp ${COMMON_INCLUDE_DIR})
+#orocos_component(base_bridge_ros_orocos orocos/src/base_bridge_ros_orocos.cpp ${COMMON_INCLUDE_DIR})
 
-orocos_generate_package()
+#orocos_generate_package()
 
 endif()
