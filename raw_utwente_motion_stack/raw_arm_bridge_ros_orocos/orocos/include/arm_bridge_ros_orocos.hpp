@@ -49,13 +49,13 @@ class ArmBridgeRosOrocos: public TaskContext
 	 * @brief Callback that is executed when an action goal to perform a joint trajectory with the arm comes in.
 	 * @param youbot_arm_goal Actionlib goal that contains the trajectory.
 	 */
-	void armJointTrajectoryGoalCallback(actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle youbot_arm_goal);
+	//void armJointTrajectoryGoalCallback(actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle youbot_arm_goal);
 
 	/**
 	 * @brief Callback that is executed when an action goal of a joint trajectory is canceled.
 	 * @param youbot_arm_goal Actionlib goal that contains the trajectory.
 	 */
-	void armJointTrajectoryCancelCallback(actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle youbot_arm_goal);
+	//void armJointTrajectoryCancelCallback(actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle youbot_arm_goal);
 
     /**
      * @brief Callback that is executed when an action goal to perform a arm movement in joint space comes in.
@@ -95,11 +95,13 @@ class ArmBridgeRosOrocos: public TaskContext
 	ros::NodeHandle m_nh;
 
 	/* Action Server */
+	/*
 	actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction> *m_trajectory_as_srv;
 	actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle m_arm_active_joint_trajectory_goal;
 	boost::ptr_vector<JointTrajectoryController> m_trajectory_controller;
 	bool m_arm_has_active_joint_trajectory_goal;
 	control_msgs::FollowJointTrajectoryResult m_action_result;
+	*/
 
     actionlib::ActionServer<raw_arm_navigation::MoveToJointConfigurationAction> *m_joint_config_as;
     actionlib::ActionServer<raw_arm_navigation::MoveToCartesianPoseAction> *m_cartesian_pose_with_impedance_ctrl_as;

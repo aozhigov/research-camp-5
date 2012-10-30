@@ -3,6 +3,7 @@
 
 ArmBridgeRosOrocos::ArmBridgeRosOrocos(const string& name) :  TaskContext(name, PreOperational), m_youbot_arm_dof(5)
 {
+	/*
 	for(size_t i=0; i < m_youbot_arm_dof; ++i)
 		m_trajectory_controller.push_back(new JointTrajectoryController);
 
@@ -10,6 +11,7 @@ ArmBridgeRosOrocos::ArmBridgeRosOrocos(const string& name) :  TaskContext(name, 
 	  m_nh, "/arm_1/arm_controller/joint_trajectory_action",
 	  boost::bind(&ArmBridgeRosOrocos::armJointTrajectoryGoalCallback, this, _1),
 	  boost::bind(&ArmBridgeRosOrocos::armJointTrajectoryCancelCallback, this, _1), false);
+	*/
 
 	m_joint_config_as = new actionlib::ActionServer<raw_arm_navigation::MoveToJointConfigurationAction > (
       m_nh, "/arm_1/arm_controller/MoveToJointConfigurationDirect", boost::bind(&ArmBridgeRosOrocos::armJointConfigurationGoalCallback, this, _1), false);
@@ -39,7 +41,7 @@ ArmBridgeRosOrocos::~ArmBridgeRosOrocos()
 {
 	delete m_cartesian_pose_with_impedance_ctrl_as;
 	delete m_joint_config_as;
-	delete m_trajectory_as_srv;
+	//delete m_trajectory_as_srv;
 }
 
 bool ArmBridgeRosOrocos::configureHook()
@@ -70,9 +72,9 @@ bool ArmBridgeRosOrocos::startHook()
 {
 	m_cartesian_pose_with_impedance_ctrl_as->start();
 	m_joint_config_as->start();
-	m_trajectory_as_srv->start();
+	//m_trajectory_as_srv->start();
 
-	m_arm_has_active_joint_trajectory_goal = false;
+	//m_arm_has_active_joint_trajectory_goal = false;
 
 	ROS_INFO("arm actions started");
 
@@ -109,6 +111,7 @@ void ArmBridgeRosOrocos::updateHook()
 
 	ros::spinOnce();
 
+	/*
 	// check if trajectory controller is finished
 	bool areTrajectoryControllersDone = true;
 
@@ -127,7 +130,7 @@ void ArmBridgeRosOrocos::updateHook()
 		control_msgs::FollowJointTrajectoryResult trajectoryResult;
 		trajectoryResult.error_code = trajectoryResult.SUCCESSFUL;
 		m_arm_active_joint_trajectory_goal.setSucceeded(trajectoryResult, "trajectory successful");
-	}
+	}*/
 
 
 	// check if new joint position arrived at topic
@@ -148,6 +151,7 @@ void ArmBridgeRosOrocos::cleanupHook()
 	TaskContext::cleanupHook();
 }
 
+/*
 void ArmBridgeRosOrocos::armJointTrajectoryGoalCallback(actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle youbot_arm_goal)
 {
 	trajectory_msgs::JointTrajectory trajectory = youbot_arm_goal.getGoal()->trajectory;
@@ -197,17 +201,17 @@ void ArmBridgeRosOrocos::armJointTrajectoryGoalCallback(actionlib::ActionServer<
 
 
 	// cancel the old goal
-	/*
-	if (m_arm_has_active_joint_trajectory_goal)
-	{
-		m_arm_active_joint_trajectory_goal.setCanceled();
-		m_arm_has_active_joint_trajectory_goal = false;
-		for (int i = 0; i < m_youbot_arm_dof; ++i)
-		{
-			youBotConfiguration.youBotArmConfigurations[armIndex].youBotArm->getArmJoint(i + 1).cancelTrajectory();
-		}
-	}
-	 */
+
+	//if (m_arm_has_active_joint_trajectory_goal)
+	//{
+	//	m_arm_active_joint_trajectory_goal.setCanceled();
+	//	m_arm_has_active_joint_trajectory_goal = false;
+	//	for (int i = 0; i < m_youbot_arm_dof; ++i)
+	//	{
+	//		youBotConfiguration.youBotArmConfigurations[armIndex].youBotArm->getArmJoint(i + 1).cancelTrajectory();
+	//	}
+	//}
+
 
 	// replace the old goal with the new one
 	youbot_arm_goal.setAccepted();
@@ -254,6 +258,7 @@ void ArmBridgeRosOrocos::armJointTrajectoryCancelCallback(actionlib::ActionServe
 		m_arm_has_active_joint_trajectory_goal = false;
 	}
 }
+*/
 
 void ArmBridgeRosOrocos::writeJointPositionsToPort(brics_actuator::JointPositions brics_joint_positions, std_msgs::Float64MultiArray& orocos_data_array, OutputPort<std_msgs::Float64MultiArray>& output_port)
 {
@@ -279,13 +284,14 @@ void ArmBridgeRosOrocos::armJointConfigurationGoalCallback(actionlib::ActionServ
 		return;
 	}
 
+	m_joint_space_ctrl_op();
+	m_use_arm_only_op();
 
 	std::cout << std::endl << std::endl;
 	writeJointPositionsToPort(joint_cfg_goal.getGoal()->goal, m_orocos_joint_positions, orocos_joint_positions);
 	std::cout << std::endl << std::endl;
 
-	m_joint_space_ctrl_op();
-	m_use_arm_only_op();
+
 	m_execute_op();
 
 	
@@ -314,6 +320,7 @@ void ArmBridgeRosOrocos::armCartesianPoseWithImpedanceCtrlGoalCallback(actionlib
 		return;
 	}
 
+	m_cartesian_ctrl_op();
 
 	std::cout << "\nx: " << goal_pose.pose.position.x << " y: " << goal_pose.pose.position.y << " z: " << goal_pose.pose.position.z << std::endl;
 
@@ -360,8 +367,6 @@ void ArmBridgeRosOrocos::armCartesianPoseWithImpedanceCtrlGoalCallback(actionlib
 	orocos_arm_stiffness.write(m_orocos_arm_stiffness);
 	orocos_homog_matrix.write(m_orocos_homog_matrix);
 
-
-	m_cartesian_ctrl_op();
 	m_execute_op();
 
 
