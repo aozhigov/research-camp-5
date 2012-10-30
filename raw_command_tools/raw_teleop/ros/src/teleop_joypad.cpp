@@ -27,6 +27,7 @@ TeleOpJoypad::TeleOpJoypad(ros::NodeHandle &nh)
 	arm_max_vel_ =  param / MAX_JOYPAD;
 	ros::param::param<double>("~soft_joint_limit_threshold", soft_joint_limit_threshold_, 0.05);
 
+	/*
 	// read joint names
 	XmlRpc::XmlRpcValue param_list;
 	nh.getParam("/arm_1/arm_controller/joints", param_list);
@@ -48,7 +49,7 @@ TeleOpJoypad::TeleOpJoypad(ros::NodeHandle &nh)
 		arm_joint_limits_.push_back(limit);
 
 	}
-
+	
 
 	arm_vel_.velocities.clear();
 	for(unsigned int i=0; i < arm_joint_names_.size(); ++i)
@@ -62,6 +63,7 @@ TeleOpJoypad::TeleOpJoypad(ros::NodeHandle &nh)
 
 		arm_vel_.velocities.push_back(joint_value);
 	}
+	*/
 
 	sub_joy_ = nh.subscribe<sensor_msgs::Joy>("/joy", 1, &TeleOpJoypad::cbJoy, this);
 	sub_joint_states_ = nh.subscribe<sensor_msgs::JointState>("/joint_states", 1, &TeleOpJoypad::cbJointStates, this);
@@ -197,6 +199,7 @@ void TeleOpJoypad::printArmJointStates()
 
 void TeleOpJoypad::checkArmJointLimits()
 {
+/*
 	for(unsigned int i =0; i < arm_joint_limits_.size(); i++)
 	{
 		for(unsigned int j = 0; j < current_joint_states_.name.size(); ++j)
@@ -212,6 +215,7 @@ void TeleOpJoypad::checkArmJointLimits()
             }
 		}
 	}
+*/
 }
 
 void TeleOpJoypad::publishCommands()
