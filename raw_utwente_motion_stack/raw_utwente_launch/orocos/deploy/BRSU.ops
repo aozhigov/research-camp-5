@@ -27,6 +27,9 @@ runScript( rospack.find("YouBot_deployment") + "/rtt_deploy/BRSU/executive.ops")
 print.ln("Starting raw_arm_bridge_ros_orocos/orocos/deploy/arm_bridge.ops")
 runScript( rospack.find("raw_arm_bridge_ros_orocos") + "/orocos/deploy/arm_bridge.ops")
 
+print.ln("Starting raw_base_bridge_ros_orocos/orocos/deploy/base_bridge.ops")
+runScript( rospack.find("raw_base_bridge_ros_orocos") + "/orocos/deploy/base_bridge.ops")
+
 print.ln("Starting republishing to rviz")
 #runScript( rospack.find("YouBot_deployment") + "/rtt_deploy/generic/configuration_publisher.ops")
 runScript( rospack.find("YouBot_deployment") + "/rtt_deploy/generic/youbot_state_republisher.ops")

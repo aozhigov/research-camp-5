@@ -1,0 +1,18 @@
+<package>
+  <description brief="raw_base_bridge_ros_orocos">
+
+     raw_base_bridge_ros_orocos
+
+  </description>
+  <author>fred</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/raw_base_bridge_ros_orocos</url>
+  <depend package="roscpp"/>
+  <depend package="rtt"/>
+  <depend package="rtt_rosnode"/>
+  <depend package="std_srvs"/>
+
+</package>
+
+
